@@ -24,5 +24,5 @@ Simple utility used to create the import filelist required when developing integ
 ```bash
     inde-filelist generate --path "D:\AndreaCuppini_tech\Orthogest\Dental Chart\Dental Chart Inde\custom"
 ```
-
+##### The filelis will be finally generated in your project custom directory
 
