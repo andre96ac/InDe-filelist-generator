@@ -4,6 +4,10 @@
   "description": "Simple script used to generate the \"custom directory\" filelist required when developing with Instant Developer Foundation",
   "main": "app.js",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andre96ac/InDe-filelist-generator.git"
+  },
   "scripts": {
     "generate": "node app.js generate"
   },

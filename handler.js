@@ -56,6 +56,8 @@ function _generate(args){
     // let strToDecrypt = args['string'];
     let finalData = null;
 
+
+
     try{
         if(!!path && path.length > 0){
             path = path.replace(/\//g, '\\')
@@ -63,22 +65,30 @@ function _generate(args){
                 path += '\\';
             }
     
-            console.log('Percorso relativo fornito: ', path)
+            console.log('Supplied relative path: ', path)
     
+            console.log('Reading directories...')
+            
             finalData = getPathList(undefined, path);
         }
         else{
+
+            console.log('Reading directories...')
+
             finalData = getPathList();
             path = '.\\'
         }
     
       
+        console.log("writing file...")
         fs.writeFileSync(path + FILE_NAME, prepareForFile(finalData))
-
+        console.log(`filelist.txt successfully generated in "${path}" with ${finalData.length} entries`)
     }
     catch(err){
         console.error(`Errore nella lettura dell'albero directory, assicurati che il percorso specificato sia corretto!`)
+        console.log(err);
     }
+
 
 
 }
@@ -137,7 +147,6 @@ function getPathList(relativePath = '', basePath = './'){
  * @returns {string}
  */
 function prepareForFile(arLines){
-    console.log(arLines)
     return arLines
     .reverse()
     .reduce((el, acc) => acc + '\n' + el)
