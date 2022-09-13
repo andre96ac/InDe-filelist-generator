@@ -13,7 +13,7 @@ function generate(yargs){
         //comando richiamabile usando quest'app
         command: 'generate',
         //descrizione del comando
-        describe: 'Genera la fileList',
+        describe: 'Generate the fileList',
 
         // flags che mi apsetto
         builder: {
@@ -22,7 +22,7 @@ function generate(yargs){
             path:{
                 
                 //descrizione del flag
-                describe: 'Percorso base della cartellca custom (se non specificato, verrà utilizzata la cartella corrente)',
+                describe: 'Base path of custom directory (if not specified, the current folder path will be used)',
                 //flag obbligatorio
                 demandOption: false,
                 //tipo
@@ -85,7 +85,7 @@ function _generate(args){
         console.log(`filelist.txt successfully generated in "${path}" with ${finalData.length} entries`)
     }
     catch(err){
-        console.error(`Errore nella lettura dell'albero directory, assicurati che il percorso specificato sia corretto!`)
+        console.error(`Error reading directory tree, make sure the path supplied is correct!`)
         console.log(err);
     }
 
