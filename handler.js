@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const AR_PATH_EXCLUDE = ['filelist.txt']
 const FILE_NAME = 'filelist.txt';
-
+const FILE_NAME_JSON = 'filelistdocument.json';
 
 
 function generate(yargs){
@@ -23,11 +23,19 @@ function generate(yargs){
                 
                 //descrizione del flag
                 describe: 'Base path of custom directory (if not specified, the current folder path will be used)',
-                //flag obbligatorio
+                //flag non obbligatorio
                 demandOption: false,
                 //tipo
                 type: 'string'
                 
+            },
+            asjson: {
+                //descrizione del flag
+                describe: 'Export First Level Directory file as JSON file with "document" property',
+                //flag facoltativo
+                demandOption: false,
+                //tipo
+                type: 'boolean'                
             }
             // key:{
             //     //descrizione del flag
@@ -53,6 +61,7 @@ function generate(yargs){
 function _generate(args){
 
     let path = args['path'];
+    let asjson = args['asjson'];
     // let strToDecrypt = args['string'];
     let finalData = null;
 
@@ -80,9 +89,20 @@ function _generate(args){
         }
     
       
-        console.log("writing file...")
-        fs.writeFileSync(path + FILE_NAME, prepareForFile(finalData))
-        console.log(`filelist.txt successfully generated in "${path}" with ${finalData.length} entries`)
+        console.log("writing filelist...");
+        fs.writeFileSync(path + FILE_NAME, prepareForFile(finalData));
+        console.log(`filelist.txt successfully generated in "${path}" with ${finalData.length} entries`);
+        
+        if (asjson) {
+            console.log("writing document file json...");
+            //Salvo anche il valore JSON
+            fs.writeFileSync(path + FILE_NAME_JSON, prepareForFileJson(finalData));
+            console.log(`filelistdocument.json successfully generated in "${path}"`);
+
+        }
+
+        
+        
     }
     catch(err){
         console.error(`Error reading directory tree, make sure the path supplied is correct!`)
@@ -152,6 +172,50 @@ function prepareForFile(arLines){
     .reduce((el, acc) => acc + '\n' + el)
     .replace(/\//g, '\\')
 }
+
+/**
+ * Crea un oggetto e lo trasforma in JSON dalla seguente forma
+ * "document": [file1, file2, file3]
+ * @param {*} arLines Linee con i path letti
+ * @returns 
+ */
+function prepareForFileJson(arLines) {
+    let myObject = {};
+    let jsonStr = '';
+    let myList = [];
+
+    if (arLines && arLines.length != 0) {
+
+        myList = arLines
+                        .reverse()
+                        .filter(elItem => {
+                                let useItem = true;
+                                //Tolgo quelli che finiscono contengono / o iniziano con .
+                                if (elItem.trim().startsWith('.') || elItem.trim().indexOf('/') != -1) {
+                                    useItem = false;
+                                }
+    
+                                return useItem;
+                        })
+                        .map(el => {
+                            let posPunto = el.lastIndexOf('.');
+                            let myFile = el;
+                            if (posPunto != -1) {
+                                myFile = myFile.substring(0,posPunto);
+                            }
+    
+                        return myFile;
+                        });
+    }
+
+    myObject['document'] = myList;
+    jsonStr = JSON.stringify(myObject);
+
+    return jsonStr;
+
+}
+
+
 
 
 

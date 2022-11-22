@@ -26,3 +26,8 @@ Simple utility used to create the import filelist required when developing integ
 ```
 ##### The filelis will be finally generated in your project custom directory
 
+##### in addition, you can specify --asjson true to export in a Json File the list of all filename (without extension founded in a base path)
+
+```bash
+    inde-filelist generate --path "D:\AndreaCuppini_tech\Inde\projects\My Project\custom"  --asjson true
+```
