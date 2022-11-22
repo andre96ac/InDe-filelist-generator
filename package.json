@@ -1,6 +1,6 @@
 {
   "name": "inde-filelist-generator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple script used to generate the \"custom directory\" filelist required when developing with Instant Developer Foundation",
   "main": "app.js",
   "type": "commonjs",
